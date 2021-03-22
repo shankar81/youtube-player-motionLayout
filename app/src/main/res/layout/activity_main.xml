@@ -5,21 +5,32 @@
     android:id="@+id/motionLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/youtube_scene"
-    app:motionDebug="SHOW_ALL"
-    tools:showPaths="true">
+    app:layoutDescription="@xml/youtube_scene">
+
+    <FrameLayout
+        android:id="@+id/imageBg"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="#EFEFEF"
+        android:elevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="lollipop" />
 
     <ImageView
         android:id="@+id/catImage"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:contentDescription="@null"
+        android:elevation="8dp"
         android:scaleType="centerCrop"
         android:src="@drawable/cat"
         app:layout_constraintBottom_toTopOf="@id/detailLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="lollipop" />
 
     <ImageView
         android:id="@+id/play"
@@ -29,9 +40,11 @@
         android:layout_marginBottom="32dp"
         android:alpha="0"
         android:contentDescription="@null"
+        android:elevation="9dp"
         android:src="@drawable/ic_play"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/close" />
+        app:layout_constraintEnd_toStartOf="@+id/close"
+        tools:targetApi="lollipop" />
 
     <ImageView
         android:id="@+id/close"
@@ -41,9 +54,27 @@
         android:layout_marginBottom="32dp"
         android:alpha="0"
         android:contentDescription="@null"
+        android:elevation="9dp"
         android:src="@drawable/ic_close"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:targetApi="lollipop" />
+
+    <TextView
+        android:id="@+id/smallTitle"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:elevation="9dp"
+        android:ellipsize="end"
+        android:maxLength="20"
+        android:singleLine="true"
+        android:text="This is youtube video titlesadsfdsffsdfsfdsf"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/catImage"
+        tools:targetApi="lollipop" />
 
     <ScrollView
         android:id="@+id/detailLayout"

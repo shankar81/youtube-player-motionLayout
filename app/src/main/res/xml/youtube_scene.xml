@@ -14,14 +14,22 @@
         <KeyFrameSet>
             <KeyAttribute
                 android:alpha="0"
+                android:translationY="-30dp"
                 motion:curveFit="linear"
-                motion:framePosition="90"
+                motion:framePosition="95"
                 motion:motionTarget="@+id/play" />
             <KeyAttribute
                 android:alpha="0"
+                android:translationY="-30dp"
                 motion:curveFit="linear"
-                motion:framePosition="90"
+                motion:framePosition="95"
                 motion:motionTarget="@+id/close" />
+            <KeyAttribute
+                android:alpha="0"
+                android:translationY="-250dp"
+                motion:curveFit="linear"
+                motion:framePosition="50"
+                motion:motionTarget="@+id/smallTitle" />
         </KeyFrameSet>
     </Transition>
 
@@ -33,6 +41,17 @@
 
         <Constraint
             android:id="@+id/catImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent" />
+
+        <Constraint
+            android:id="@+id/imageBg"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginStart="8dp"
@@ -62,6 +81,18 @@
             android:alpha="1"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent" />
+
+        <Constraint
+            android:id="@+id/smallTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="48dp"
+            android:alpha="1"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toStartOf="@id/play"
+            motion:layout_constraintStart_toEndOf="@id/catImage" />
 
         <Constraint
             android:id="@+id/detailLayout"
