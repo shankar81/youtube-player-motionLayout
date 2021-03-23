@@ -22,11 +22,11 @@
                 motion:curveFit="linear"
                 motion:framePosition="50"
                 motion:motionTarget="@+id/smallTitle" />
-            <KeyPosition
+            <KeyAttribute
+                android:alpha="0"
                 motion:curveFit="linear"
-                motion:framePosition="90"
-                motion:motionTarget="@+id/catImage"
-                motion:percentWidth="70" />
+                motion:framePosition="50"
+                motion:motionTarget="@+id/channel" />
         </KeyFrameSet>
     </Transition>
 
@@ -36,7 +36,7 @@
         <Constraint
             android:id="@+id/catImage"
             android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_height="0dp"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="parent" />
@@ -66,10 +66,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:alpha="1"
+            motion:layout_constraintBottom_toBottomOf="@id/channel"
+            motion:layout_constraintStart_toEndOf="@+id/catImage"
+            motion:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/channel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:alpha="1"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintStart_toEndOf="@+id/catImage"
-            motion:layout_constraintTop_toTopOf="parent" />
+            motion:layout_constraintTop_toTopOf="@id/smallTitle" />
 
     </ConstraintSet>
 
