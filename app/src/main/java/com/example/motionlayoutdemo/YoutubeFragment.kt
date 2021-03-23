@@ -1,8 +1,10 @@
 package com.example.motionlayoutdemo
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -11,8 +13,10 @@ import androidx.fragment.app.Fragment
 private const val TAG = "YoutubeFragment"
 
 class YoutubeFragment : Fragment() {
-
-    var progress = 0F
+    private var progress = 0F
+    private lateinit var mainLayout: MotionLayout
+    private lateinit var headerLayout: MotionLayout
+    private var isScrolling = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,41 +25,79 @@ class YoutubeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_youtube, container, false)
 
-        val ml = view.findViewById<MotionLayout>(R.id.headerLayout)
-        val ml2 = view.findViewById<MotionLayout>(R.id.motionLayout)
-        ml2.addTransitionListener(object :
+        mainLayout = view.findViewById(R.id.motionLayout)
+        headerLayout = view.findViewById(R.id.headerLayout)
+
+        return view
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mainLayout.addTransitionListener(object :
             MotionLayout.TransitionListener {
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
-                ml.progress = p0?.progress ?: 0F
+                headerLayout.progress = p0?.progress ?: 0F
             }
 
             override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
-                ml.progress = p0?.progress ?: 0F
+                headerLayout.progress = p0?.progress ?: 0F
             }
 
             override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
-                ml.progress = p0?.progress ?: 0F
-                progress = ml.progress
-                if (ml2.progress > 0.8F) {
-                    ml.isClickable = true
-                    ml.setOnClickListener {
-                        ml2.transitionToStart()
-                    }
+                headerLayout.progress = p0?.progress ?: 0F
+                progress = headerLayout.progress
+                isScrolling = false
+                if (mainLayout.progress > 0.8F) {
+                    headerLayout.isClickable = true
                     Log.d(TAG, "onTransitionCompleted: OF ")
                 } else {
-                    ml.setOnClickListener(null)
-                    ml.isClickable = false
+                    headerLayout.isClickable = false
                     Log.d(TAG, "onTransitionCompleted: ELSE")
                 }
             }
 
             override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
-                ml.progress = p0?.progress ?: 0F
+                headerLayout.progress = p0?.progress ?: 0F
             }
         })
 
-
-
-        return view
+        headerLayout.setOnTouchListener { v, event ->
+            if (progress < 0.8F || isScrolling) {
+                return@setOnTouchListener false
+            }
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    headerLayout.isClickable = true
+                    isScrolling = false
+                    Log.d(
+                        TAG,
+                        "onViewCreated: DOWN ${MotionEvent.ACTION_DOWN} ${event.y} ${event.yPrecision} ${event.rawY} "
+                    )
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    headerLayout.isClickable = false
+                    isScrolling = true
+                    Log.d(
+                        TAG,
+                        "onViewCreated: SCROLL ${MotionEvent.ACTION_MOVE} ${event.y} ${event.yPrecision} ${event.rawY} "
+                    )
+                    return@setOnTouchListener false
+                }
+                MotionEvent.ACTION_UP -> {
+                    if (!isScrolling) {
+                        mainLayout.transitionToStart()
+                        headerLayout.isClickable = false
+                    }
+                    isScrolling = false
+                    Log.d(
+                        TAG,
+                        "onViewCreated: UP ${MotionEvent.ACTION_UP} ${event.y} ${event.yPrecision} ${event.rawY}  "
+                    )
+                }
+            }
+            progress > 0.8F
+        }
     }
+
 }
