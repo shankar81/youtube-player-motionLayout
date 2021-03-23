@@ -7,119 +7,110 @@
     android:layout_height="match_parent"
     app:layoutDescription="@xml/youtube_scene">
 
-    <FrameLayout
-        android:id="@+id/imageBg"
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="#EFEFEF"
-        android:elevation="8dp"
+        android:background="#EEEEEE"
+        app:layoutDescription="@xml/scene_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:targetApi="lollipop" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/catImage"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:contentDescription="@null"
-        android:elevation="8dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/cat"
-        app:layout_constraintBottom_toTopOf="@id/detailLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:targetApi="lollipop" />
+        <ImageView
+            android:id="@+id/catImage"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            android:src="@drawable/cat"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/play"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
-        android:alpha="0"
-        android:contentDescription="@null"
-        android:elevation="9dp"
-        android:src="@drawable/ic_play"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/close"
-        tools:targetApi="lollipop" />
+        <ImageView
+            android:id="@+id/play"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:alpha="0"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_play"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/close"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/close"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:alpha="0"
-        android:contentDescription="@null"
-        android:elevation="9dp"
-        android:src="@drawable/ic_close"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:targetApi="lollipop" />
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:alpha="0"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/smallTitle"
-        style="@style/TextAppearance.MaterialComponents.Headline6"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:alpha="0"
-        android:elevation="9dp"
-        android:ellipsize="end"
-        android:maxLength="20"
-        android:singleLine="true"
-        android:text="This is youtube video titlesadsfdsffsdfsfdsf"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/catImage"
-        tools:targetApi="lollipop" />
+        <TextView
+            android:id="@+id/smallTitle"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            android:ellipsize="end"
+            android:maxLength="20"
+            android:singleLine="true"
+            android:text="This is youtube video titlesadsfdsffsdfsfdsf"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/catImage"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/detailLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/catImage">
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
+            android:id="@+id/detailLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/headerLayout">
 
-            <TextView
-                android:id="@+id/title"
-                style="@style/TextAppearance.MaterialComponents.Headline5"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cat Title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:padding="16dp">
 
-            <TextView
-                android:id="@+id/desc"
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Cats, also called domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals, of the family Felidae. Domestic cats are often called 'house cats' when kept as indoor pets. Cats have been domesticated (tamed) for nearly 10,000 years. ... Domestic cats are found in shorthair, longhair, and hairless breeds."
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title" />
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/TextAppearance.MaterialComponents.Headline5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cat Title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Cats, also called domestic cats (Felis cactus), are small, carnivorous mammals, of the family Felidae. Domestic cats are often called 'house cats' when kept as indoor pets. Cats have been domesticated (tamed) for nearly 10,000 years. ... Domestic cats are found in shorthair, longhair, and hairless breeds."
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/desc" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+                <TextView
+                    android:id="@+id/desc"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Cats, also called domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals,domestic cats (Felis cactus), are small, carnivorous mammals, of the family Felidae. Domestic cats are often called 'house cats' when kept as indoor pets. Cats have been domesticated (tamed) for nearly 10,000 years. ... Domestic cats are found in shorthair, longhair, and hairless breeds."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/title" />
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Cats, also called domestic cats (Felis cactus), are small, carnivorous mammals, of the family Felidae. Domestic cats are often called 'house cats' when kept as indoor pets. Cats have been domesticated (tamed) for nearly 10,000 years. ... Domestic cats are found in shorthair, longhair, and hairless breeds."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/desc" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
