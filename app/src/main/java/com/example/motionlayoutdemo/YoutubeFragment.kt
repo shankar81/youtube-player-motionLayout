@@ -1,8 +1,12 @@
 package com.example.motionlayoutdemo
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.res.Resources
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -17,6 +21,7 @@ class YoutubeFragment : Fragment() {
     private lateinit var mainLayout: MotionLayout
     private lateinit var headerLayout: MotionLayout
     private var isScrolling = false
+    private var rect: Rect? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +39,7 @@ class YoutubeFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         mainLayout.addTransitionListener(object :
             MotionLayout.TransitionListener {
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
@@ -62,42 +68,81 @@ class YoutubeFragment : Fragment() {
             }
         })
 
+        // Remove Touch Listener from headerLayout
+        // Instead add it to whole parent and check if user touched inside the header
+        // If user touched inside header and moved then start moving else do nothing
+        // Also check the onClick from parent only by checking the rect
         headerLayout.setOnTouchListener { v, event ->
-            if (progress < 0.8F || isScrolling) {
+            // If already full screen
+            // Then don't allow touch event
+            if (progress < 0.8F) {
                 return@setOnTouchListener false
             }
+
+            Log.d(TAG, "EVENT MOTION: ${event.action} ${event.actionMasked}")
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     headerLayout.isClickable = true
                     isScrolling = false
-                    Log.d(
-                        TAG,
-                        "onViewCreated: DOWN ${MotionEvent.ACTION_DOWN} ${event.y} ${event.yPrecision} ${event.rawY} "
-                    )
+                    rect = Rect(v.left, v.top, v.right, v.bottom)
                 }
                 MotionEvent.ACTION_MOVE -> {
+                    val noNullRect = rect
+                    // As user moves the finger change the progress of MotionLayout
                     headerLayout.isClickable = false
                     isScrolling = true
-                    Log.d(
-                        TAG,
-                        "onViewCreated: SCROLL ${MotionEvent.ACTION_MOVE} ${event.y} ${event.yPrecision} ${event.rawY} "
-                    )
-                    return@setOnTouchListener false
+                    progress = (event.rawY / resources.displayMetrics.heightPixels) - 0.1F
+                    mainLayout.progress = progress
+
+                    if (noNullRect != null && !noNullRect.contains(
+                            v.left + event.x.toInt(),
+                            v.top + event.y.toInt()
+                        )
+                    ) {
+                        // User moved outside bounds
+                        if (progress < 0.5F) {
+                            mainLayout.transitionToStart()
+                        } else {
+                            mainLayout.transitionToEnd()
+                        }
+                    }
+                    return@setOnTouchListener true
                 }
-                MotionEvent.ACTION_UP -> {
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    Log.d(TAG, "onViewCreated: $progress $isScrolling")
                     if (!isScrolling) {
                         mainLayout.transitionToStart()
-                        headerLayout.isClickable = false
+                    } else if (progress < 0.5F) {
+                        mainLayout.transitionToStart()
+                    } else {
+                        mainLayout.transitionToEnd()
                     }
                     isScrolling = false
-                    Log.d(
-                        TAG,
-                        "onViewCreated: UP ${MotionEvent.ACTION_UP} ${event.y} ${event.yPrecision} ${event.rawY}  "
-                    )
+
                 }
+
             }
             progress > 0.8F
         }
+    }
+
+    private fun getStatusBarHeight(resources: Resources): Int {
+        var height = 0
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            height = resources.getDimensionPixelOffset(resourceId)
+        }
+
+        Log.d(TAG, "getStatusBarHeight: $height")
+        return height
+    }
+
+    private fun getActionBarHeight(context: Context): Int {
+        val tv = TypedValue()
+        context.theme.resolveAttribute(android.R.attr.actionBarSize, tv, true)
+        val height = context.resources.getDimensionPixelOffset(tv.resourceId)
+        Log.d(TAG, "getActionBarHeight: $height")
+        return height
     }
 
 }
